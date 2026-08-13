@@ -422,7 +422,7 @@
             .then(res => res.json())
             .then(data => {
                 if (data.status === "success") {
-                    //totalScanCount++;
+                    totalScanCount++;
                     document.getElementById("total-scans").innerText = totalScanCount;
                     updateStatus("成功寫入！可繼續對準下一張", "bg-emerald-600 text-white");
                     addHistoryLog(qrCode, currentCat, true);
