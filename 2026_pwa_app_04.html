@@ -407,7 +407,7 @@
             const combinedText = `${qrCode} ${currentCat}`;
             document.getElementById("display-combined").innerText = combinedText;
 
-            updateStatus("寫入 Google Sheet 中...", "bg-amber-500 text-white");
+            updateStatus("", "bg-amber-500 text-white");
 
             const payload = {
                 qrCode: qrCode,
