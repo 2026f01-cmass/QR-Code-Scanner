@@ -1,5 +1,21 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
+
+	<script>
+  // 設定你想要的密碼
+  const SECRET_PASSWORD = "peterp"; 
+
+  // 跳出輸入框
+  let input = prompt("請輸入密碼以存取此 QR Code 掃描器：");
+
+  if (input !== SECRET_PASSWORD) {
+    alert("密碼錯誤，無法存取！");
+    // 密碼錯誤就直接清空頁面或轉址
+    document.write("<h1 style='text-align:center;margin-top:50px;'>⛔ 存取被拒絕：密碼錯誤</h1>");
+    window.stop(); // 停止載入後續 HTML 內容
+  }
+</script>
+	
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
