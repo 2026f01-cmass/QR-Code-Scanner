@@ -441,7 +441,7 @@ function processAndWriteData(qrCode) {
     const item = {
         id: Date.now() + "_" + Math.random().toString(36).substr(2, 4), // 唯一識別碼防重複
         qrCode: qrCode,
-        method: "02" + currentCat,
+        method: "01" + currentCat,
         category: currentCat,
         retries: 0
     };
