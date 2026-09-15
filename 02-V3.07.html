@@ -419,7 +419,7 @@ async function processBatchQueue() {
 
     isQueueProcessing = true;
     
-    const batch = scanQueue.slice(0, 10); 
+    const batch = scanQueue.slice(0, 50); 
     const apiUrl = getApiUrl();
 
     updateStatus(`批次寫入中 (${batch.length} 筆)...`, "bg-amber-500 text-white");
@@ -443,7 +443,7 @@ async function processBatchQueue() {
     isQueueProcessing = false;
 
     if (scanQueue.length > 0) {
-        setTimeout(processBatchQueue, 300);
+        setTimeout(processBatchQueue, 1000);
     }
 }
 
@@ -455,7 +455,7 @@ async function sendBatchToGasWithRetry(url, batchItems, maxRetries = 3) {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
         try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 8000);
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
 
             const response = await fetch(url, {
                 method: "POST",
