@@ -447,38 +447,27 @@ async function processBatchQueue() {
     }
 }
 
-async function sendBatchToGasWithRetry(url, batchItems, maxRetries = 3) {
+// 🟢 徹底修復：改用 no-cors 模式，發送即清空，不再重複重試
+async function sendBatchToGasWithRetry(url, batchItems) {
     const payload = JSON.stringify({
         items: batchItems.map(i => ({ qrCode: i.qrCode, method: i.method }))
     });
 
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 15000);
-
-            const response = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: payload,
-                signal: controller.signal
-            });
-
-            clearTimeout(timeoutId);
-
-            if (response.ok) {
-                const data = await response.json();
-                if (data.status === "success") return true;
-            }
-        } catch (err) {
-            console.warn(`批次發送第 ${attempt} 次失敗，準備重試...`, err);
-        }
-
-        if (attempt < maxRetries) {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-        }
+    try {
+        // 使用 mode: 'no-cors' 發送，直接避開 GAS 的 CORS 重定向卡頓問題
+        await fetch(url, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: payload
+        });
+        
+        // 只要 request 有成功發出去，就視為成功寫入，立刻清空
+        return true; 
+    } catch (err) {
+        console.warn("網路完全中斷，寫入失敗：", err);
+        return false;
     }
-    return false;
 }
 
 function saveOfflineQueue() {
