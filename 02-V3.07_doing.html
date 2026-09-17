@@ -530,10 +530,6 @@ function loadOfflineQueue() {
             return "bg-slate-100 text-slate-700";
         }
 
-        function clearHistory() {
-            document.getElementById("history-list").innerHTML = '<li class="text-slate-400 text-center py-3 italic">尚無掃描記錄，對準 1-5000 QR Code 即可自動感應</li>';
-        }
-
         function showToast(msg, bgClass) {
             const toast = document.getElementById("toast");
             toast.innerText = msg;
